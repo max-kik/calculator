@@ -36,6 +36,47 @@ clear.onclick = function () {
     showCalculation();
 }
 
+CE.onclick = function () {
+
+    if (calculation.length === 1) {
+
+        if (calculation[0] === "0") {
+
+        } else {
+            calculation = "0";
+        }
+
+    } else {
+        let firstChar = getChar(1);
+        let secondChar = getChar(2);
+        if (
+            firstChar === "*" ||
+            firstChar === "/" ||
+            firstChar === "-" ||
+            firstChar === "+"
+            &&
+            secondChar === "*" ||
+            secondChar === "/" ||
+            secondChar === "-" ||
+            secondChar === "+"
+        ) {
+            calculation = calculation.slice(0, -3);
+        } else if (
+            firstChar === "*" ||
+            firstChar === "/" ||
+            firstChar === "-" ||
+            firstChar === "+"
+        ) {
+            calculation = calculation.slice(0, -3);
+        } else {
+            calculation = calculation.slice(0, -1);
+        }
+
+    }
+
+    showCalculation();
+}
+
 // add numbers 
 function addNumbers(number) {
     if (calculation === "0") {
