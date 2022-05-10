@@ -12,6 +12,12 @@ numIds.forEach(numId => {
     numElements.push(document.getElementById(numId));
 })
 
+// error disappears
+let body = document.body;
+body.onmousedown = function () {
+    output.style.borderColor = '';
+}
+
 // add the numbers to the calculation 
 function addNumbers(number) {
     if (calculation === "0") {
@@ -93,7 +99,7 @@ CE.onclick = function () { // removes the first char of the calculation
     if (calculation.length === 1) {
 
         if (calculation[0] === "0") {
-
+            output.style.borderColor = 'red';
         } else {
             calculation = "0";
         }
@@ -136,13 +142,13 @@ plus.onclick = function () {
     const secondChar = getChar(2);
 
     if (firstChar === "+") {
-
+        output.style.borderColor = 'red';
     } else if (
         secondChar === "*" ||
         secondChar === "/" &&
         firstChar === "-"
     ) {
-
+        output.style.borderColor = 'red';
     } else if (
         firstChar === "*" ||
         firstChar === "/" ||
@@ -161,7 +167,7 @@ min.onclick = function () {
     const firstChar = getChar(1);
 
     if (firstChar === "-") {
-
+        output.style.borderColor = 'red';
     } else if (calculation === "0") {
         calculation = "-";
     } else if (
@@ -181,8 +187,9 @@ multiply.onclick = function () {
     const secondChar = getChar(2);
 
     if (firstChar === "*") {
-
-    } else if (calculation.length === 1 &&
+        output.style.borderColor = 'red';
+    } else if (
+        calculation.length === 1 &&
         firstChar === "-") {
         calculation = "0 * ";
     } else if (
@@ -190,7 +197,7 @@ multiply.onclick = function () {
         (secondChar === "*" ||
             secondChar === "/")
     ) {
-
+        output.style.borderColor = 'red';
     } else if (
         firstChar === "+" ||
         firstChar === "/" ||
@@ -211,8 +218,9 @@ divide.onclick = function () {
     const secondChar = getChar(2);
 
     if (firstChar === "/") {
-
-    } else if (calculation.length === 1 &&
+        output.style.borderColor = 'red';
+    } else if (
+        calculation.length === 1 &&
         firstChar === "-") {
         calculation = "0 / ";
     } else if (
@@ -220,7 +228,7 @@ divide.onclick = function () {
         (secondChar === "*" ||
             secondChar === "/")
     ) {
-
+        output.style.borderColor = 'red';
     } else if (
         firstChar === "+" ||
         firstChar === "*" ||
@@ -240,7 +248,10 @@ function getChar(position) {
 
     let noWhitespace = calculation.replaceAll(' ', '');
 
-    if (noWhitespace.length > 0 && position <= 2) {
+    if (
+        noWhitespace.length > 0 &&
+        position <= 2
+    ) {
         let pos = noWhitespace.length - position;
         return noWhitespace[pos];
     } else if (noWhitespace.length > 2) {
@@ -271,14 +282,32 @@ function createHistoryList() {
 // calcs the output
 calc.onclick = function () {
 
-    calcHistory.push(calculation);
-    calculation = eval(calculation);
-    answerHistory.push(calculation);
+    let lastChar = getChar(1);
 
-    createHistoryList()
+    if (
+        calculation.length === 1 &&
+        (calculation[0] === "0" ||
+            calculation[0] === "-")
+    ) {
+        output.style.borderColor = 'red';
+    } else if (
+        lastChar === "*" ||
+        lastChar === "+" ||
+        lastChar === "-" ||
+        lastChar === "/"
+    ) {
+        output.style.borderColor = 'red';
+    } else {
+        calcHistory.push(calculation);
+        calculation = eval(calculation);
+        answerHistory.push(calculation);
 
-    showCalculation();
-    calculation = "0";
+        createHistoryList()
+
+        showCalculation();
+        calculation = "0";
+    }
+
 }
 
 function removeChar() {
