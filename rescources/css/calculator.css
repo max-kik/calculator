@@ -65,7 +65,7 @@ body {
 
 .historys {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 15px;
     max-width: 540px;
     width: calc(100% -40px);
