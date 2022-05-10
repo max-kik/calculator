@@ -29,6 +29,7 @@ let calc = document.getElementById('calc');
 
 // clear
 let clear = document.getElementById('clear');
+let CE = document.getElementById('CE');
 
 clear.onclick = function () {
     calculation = "0";
@@ -88,14 +89,21 @@ zero.onclick = function () {
 // add factors
 plus.onclick = function () {
 
-    const char = getChar();
+    const firstChar = getChar(1);
+    const secondChar = getChar(2);
 
-    if (char === "+") {
+    if (firstChar === "+") {
 
     } else if (
-        char === "*" ||
-        char === "/" ||
-        char === "-"
+        secondChar === "*" ||
+        secondChar === "/" &&
+        firstChar === "-"
+    ) {
+
+    } else if (
+        firstChar === "*" ||
+        firstChar === "/" ||
+        firstChar === "-"
     ) {
         removeChar();
         calculation += " + ";
@@ -107,12 +115,14 @@ plus.onclick = function () {
 
 min.onclick = function () {
 
-    const char = getChar();
+    const firstChar = getChar(1);
 
-    if (char === "-") {
+    if (firstChar === "-") {
 
+    } else if (calculation === "0") {
+        calculation = "-";
     } else if (
-        char === "+"
+        firstChar === "+"
     ) {
         removeChar();
         calculation += " - ";
@@ -124,48 +134,79 @@ min.onclick = function () {
 
 multiply.onclick = function () {
 
-    const char = getChar();
+    const firstChar = getChar(1);
+    const secondChar = getChar(2);
 
-    if (char === "*") {
+    if (firstChar === "*") {
+
+    } else if (calculation.length === 1 &&
+        firstChar === "-") {
+        calculation = "0 * ";
+    } else if (
+        firstChar === "-" &&
+        (secondChar === "*" ||
+            secondChar === "/")
+    ) {
 
     } else if (
-        char === "+" ||
-        char === "/" ||
-        char === "-"
+        firstChar === "+" ||
+        firstChar === "/" ||
+        firstChar === "-"
     ) {
         removeChar();
         calculation += " * ";
     } else {
         calculation += " * ";
     }
+
     showCalculation();
 }
 
 divide.onclick = function () {
 
-    const char = getChar();
+    const firstChar = getChar(1);
+    const secondChar = getChar(2);
 
-    if (char === "/") {
+    if (firstChar === "/") {
+
+    } else if (calculation.length === 1 &&
+        firstChar === "-") {
+        calculation = "0 / ";
+    } else if (
+        firstChar === "-" &&
+        (secondChar === "*" ||
+            secondChar === "/")
+    ) {
 
     } else if (
-        char === "*" ||
-        char === "+" ||
-        char === "-") {
+        firstChar === "+" ||
+        firstChar === "*" ||
+        firstChar === "-"
+    ) {
         removeChar();
         calculation += " / ";
     } else {
         calculation += " / ";
     }
+
     showCalculation();
 }
 
-// get last character of the string 
-function getChar() {
-    if (calculation.length > 0) {
-        return calculation.charAt(calculation.length - 2);
+// returns a character of a string
+function getChar(position) {
+
+    let noWhitespace = calculation.replaceAll(' ', '');
+
+    if (noWhitespace.length > 0 && position <= 2) {
+        let pos = noWhitespace.length - position;
+        return noWhitespace[pos];
+    } else if (noWhitespace.length > 2) {
+        let pos = noWhitespace.length - position;
+        return noWhitespace[pos];
     } else {
-        return 0;
+        return "0";
     }
+
 }
 
 // calc the output
