@@ -1,12 +1,14 @@
 
 let calculated = 0;
 let calculation = "0";
+let calcHistory = [];
+let answerHistory = [];
 
 // the output screen
 let output = document.getElementById('output');
 
-//history
-let historys = document.getElementById('historys');
+// history
+var historys = document.getElementById('historys');
 
 // numbers 
 let one = document.getElementById('one');
@@ -250,9 +252,30 @@ function getChar(position) {
 
 }
 
+function createHistoryList() {
+
+    let i = calcHistory.length - 1;
+
+    if (i === 0) {
+        document.getElementById('history').style.display = 'block';
+    }
+
+    var newDiv = document.createElement('div');
+    newDiv.className = 'history';
+    newDiv.innerHTML = calcHistory[i] + " = <span class='answer'>" + answerHistory[i] + "</span>";
+
+    historys.appendChild(newDiv);
+}
+
 // calc the output
 calc.onclick = function () {
+
+    calcHistory.push(calculation);
     calculation = eval(calculation);
+    answerHistory.push(calculation);
+
+    createHistoryList()
+
     showCalculation();
     calculation = "0";
 }

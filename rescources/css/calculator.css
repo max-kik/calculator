@@ -65,9 +65,12 @@ body {
 
 .historys {
     display: flex;
+    flex-direction: column;
+    gap: 15px;
     max-width: 540px;
     width: calc(100% -40px);
     margin: 0 20px;
+    margin-bottom: 50px;
 }
 
 .history {
@@ -77,6 +80,11 @@ body {
     width: 100%;
 }
 
-h1 {
-    text-align: center;
+#history {
+    padding-left: 20px;
+    display: none;
+}
+
+.answer {
+    color: #009FE3;
 }
