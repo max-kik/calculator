@@ -1,26 +1,76 @@
-
-let calculated = 0;
 let calculation = "0";
-let calcHistory = [];
-let answerHistory = [];
 
-// the output screen
-let output = document.getElementById('output');
+let calcHistory = []; // the calculated formulas 
+let answerHistory = []; // the answers
+let numElements = []; // elements of the numbers
+let numIds = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'] // ids of the numbers
 
-// history
-var historys = document.getElementById('historys');
+let output = document.getElementById('output'); // get the output screen 
+var historys = document.getElementById('historys'); // get the history div
 
-// numbers 
-let one = document.getElementById('one');
-let two = document.getElementById('two');
-let three = document.getElementById('three');
-let four = document.getElementById('four');
-let five = document.getElementById('five');
-let six = document.getElementById('six');
-let seven = document.getElementById('seven');
-let eight = document.getElementById('eight');
-let nine = document.getElementById('nine');
-let zero = document.getElementById('zero');
+numIds.forEach(numId => {
+    numElements.push(document.getElementById(numId));
+})
+
+// add the numbers to the calculation 
+function addNumbers(number) {
+    if (calculation === "0") {
+        calculation = number;
+    } else {
+        calculation += number;
+    }
+    showCalculation();
+}
+
+// checks the id of the clicked button 
+function check(event) {
+
+    let i = 0;
+
+    switch (event.target.id) {
+        case "zero":
+            i = "0";
+            break;
+        case "one":
+            i = "1";
+            break;
+        case "two":
+            i = "2";
+            break;
+        case "three":
+            i = "3";
+            break;
+        case "four":
+            i = "4";
+            break;
+        case "five":
+            i = "5";
+            break;
+        case "six":
+            i = "6";
+            break;
+        case "seven":
+            i = "7";
+            break;
+        case "eight":
+            i = "8";
+            break;
+        case "nine":
+            i = "9";
+            break;
+    }
+
+    addNumbers(i);
+}
+
+function addNumber(element) {
+
+    element.onclick = function () {
+        check(event);
+    }
+}
+
+numElements.forEach(addNumber);
 
 // factors
 let plus = document.getElementById('plus');
@@ -33,12 +83,12 @@ let calc = document.getElementById('calc');
 let clear = document.getElementById('clear');
 let CE = document.getElementById('CE');
 
-clear.onclick = function () {
+clear.onclick = function () { // clears the calculation 
     calculation = "0";
     showCalculation();
 }
 
-CE.onclick = function () {
+CE.onclick = function () { // removes the first char of the calculation 
 
     if (calculation.length === 1) {
 
@@ -77,56 +127,6 @@ CE.onclick = function () {
     }
 
     showCalculation();
-}
-
-// add numbers 
-function addNumbers(number) {
-    if (calculation === "0") {
-        calculation = number;
-    } else {
-        calculation += number;
-    }
-    showCalculation();
-}
-
-one.onclick = function () {
-    addNumbers("1")
-}
-
-two.onclick = function () {
-    addNumbers("2")
-}
-
-three.onclick = function () {
-    addNumbers("3")
-}
-
-four.onclick = function () {
-    addNumbers("4")
-}
-
-five.onclick = function () {
-    addNumbers("5")
-}
-
-six.onclick = function () {
-    addNumbers("6")
-}
-
-seven.onclick = function () {
-    addNumbers("7")
-}
-
-eight.onclick = function () {
-    addNumbers("8")
-}
-
-nine.onclick = function () {
-    addNumbers("9")
-}
-
-zero.onclick = function () {
-    addNumbers("0")
 }
 
 // add factors
@@ -252,6 +252,7 @@ function getChar(position) {
 
 }
 
+// creates the list for the calculations that are done 
 function createHistoryList() {
 
     let i = calcHistory.length - 1;
@@ -267,7 +268,7 @@ function createHistoryList() {
     historys.appendChild(newDiv);
 }
 
-// calc the output
+// calcs the output
 calc.onclick = function () {
 
     calcHistory.push(calculation);
